@@ -9,28 +9,22 @@ module alu #(
 )(
     input  wire [XLEN-1:0] a,        // Operando A
     input  wire [XLEN-1:0] b,        // Operando B
-    input  wire [3:0]      alu_ctrl, // Señal de control de la ALU
-    output reg  [XLEN-1:0] result,   // Resultado de la operación
+    input  wire [3:0]      alu_ctrl, // SeÃ±al de control de la ALU
+    output reg  [XLEN-1:0] result,   // Resultado de la operaciÃ³n
     output wire            zero      // Flag: resultado == 0
 );
 
-    // Señales internas
+    // SeÃ±ales internas
     wire signed [XLEN-1:0] a_signed = a;
     wire signed [XLEN-1:0] b_signed = b;
 
-    // Lógica combinacional
+    // LÃ³gica combinacional
     always @(*) begin
         case (alu_ctrl)
-            4'b0000: result = a + b;                            // ADD
-            4'b0001: result = a - b;                            // SUB
-            4'b0010: result = a & b;                            // AND
-            4'b0011: result = a | b;                            // OR
-            4'b0100: result = a ^ b;                            // XOR
-            4'b0101: result = a << b[4:0];                      // SLL
-            4'b0110: result = a >> b[4:0];                      // SRL (lógico)
-            4'b0111: result = a_signed >>> b[4:0];              // SRA (aritmético)
-            4'b1000: result = (a_signed < b_signed) ? 32'd1 : 32'd0; // SLT signed
-            4'b1001: result = (a < b) ? 32'd1 : 32'd0;          // SLTU unsigned
+            2'b00: result = a + b;                            // ADD
+            2'b01: result = a & b;                            // AND
+            2'b10: result = a ^ b;                            // XOR
+            2'b11: result = a_signed >>> b[4:0];              // SRA (aritmÃ©tico)
             default: result = 32'd0;                            // NOP / por defecto
         endcase
     end
